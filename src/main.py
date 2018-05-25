@@ -27,7 +27,7 @@ def main():
     # output_img_resize = (388, 388)  # The resize size of the output images of the neural net
     input_img_resize = (500, 500)
     output_img_resize = (500, 500)
-    batch_size = 1
+    batch_size = 3
     epochs = 50
     threshold = 0.5
     validation_size = 0.2
@@ -57,13 +57,13 @@ def main():
     origin_img_size = ds_fetcher.get_image_size(X_train[0])
 
     # Testing callbacks
-    pred_saver_cb = PredictionsSaverCallback(os.path.join(script_dir, '..\\output\\submit.csv.gz'),
+    pred_saver_cb = PredictionsSaverCallback(os.path.join(script_dir, '../output/submit.csv.gz'),
                                              origin_img_size, threshold)
 
     # -- Define our neural net architecture
     # The original paper has 1 input channel,
     # in our case we have 3 (RGB)
-    net = unet_custom.UNet1024((1, *input_img_resize))
+    net = unet_custom.UNet1024((3, *input_img_resize))
     #net = unet_origin.UNetOriginal((3, *input_img_resize))
     classifier = nn.classifier.CarvanaClassifier(net, epochs)
     optimizer = optim.RMSprop(net.parameters(), lr=0.0002)
